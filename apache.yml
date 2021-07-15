@@ -1,0 +1,19 @@
+# Run this YAML script on Control Node 
+# which installs apache light weight webserver on MN1 
+# and starts apache automatically on server start
+
+- hosts: 172.31.25.221  # Private IP address MN1 to install apache
+  tasks:  # Here starts list of tasks to do 
+    - name: install apache # Friendly name it can be any name
+      yum:  # What module to be installed
+       name: http # What inputs we give
+       state: present # To install 
+    - name: copy code to remote machine # Friendly name
+      copy: 
+        src: index.html 
+        dest: /var/www/html/  # cp index.html to apache filesystem
+    - name: start apache # Friendly name
+        service:
+          name: httpd
+          enabled: yes # we are making apache to auto start
+          state: started
